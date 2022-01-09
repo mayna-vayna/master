@@ -1,0 +1,21 @@
+
+11. С помощью чего мы связываем сигнал-слот? Расскажите что для этого
+нужно и приведите пример
+
+
+Ответ:
+
+
+Для соединения слотов и сигналов используется 
+функция connect, чья сигнатура, в вольной интерпретации выглядит следующим о
+бразом: используем QObject::connect() и макросы SIGNAL() и SLOT() - connect(отправитель, 
+сигнал, получатель, слот, тип соединения). И  при таком соединении при изменении состояния обекта
+он издает сигнал и с помошью connect происходит связь для примера можно использовать конект в нашей 
+лабараторной видео плеер :
+
+    connect(videoPlayer,&QMediaPlayer::durationChanged,HorizontalSlider,&QSlider::setMaximum);
+    connect(videoPlayer,&QMediaPlayer::positionChanged,HorizontalSlider,&QSlider::setValue);
+    connect(HorizontalSlider,&QSlider::sliderMoved,videoPlayer,&QMediaPlayer::setPosition);
+
+здесь происходит конект при изменении состояния слайдера его минимального
+промежуточного и максимального значания
