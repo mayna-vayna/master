@@ -1,0 +1,40 @@
+
+12. Как сгенерировать собственный сигнал на своем объекте? Для чего это
+может пригодиться? Приведите пример кода
+
+
+Ответ:
+
+
+Пригодится он тогда когда вам нужно будет создать сигнал которого нету
+ в стандартных библиотеках вашего виджета для вашего дочернего класса 
+от QObject для выполнения определенной цели
+
+пример: 
+
+ signals:
+    void Value(int newValue);
+
+public slots:
+    void emit_change(); 
+    void change_value(int newVal);
+/*-----------------------------------------------------------------*/
+    Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
+{
+    QTimer* timer = new QTimer;
+    timer->start(1000); //каждую секунду
+    connect(timer, SIGNAL(timeout()), this, SLOT(emit_change()));
+    connect(this, SIGNAL(Value(int)), this, SLOT(change_value(int)));
+    ui->setupUi(this);
+}
+ 
+void Widget::emit_change(){
+    int range = rand()%100; //генерируем число
+    emit Value(range); //вызываем сигнал
+}
+ 
+void Widget::change_value(int newVal){
+    ui->kletka->setText(QString::number(newVal)); //задаем число
+}
